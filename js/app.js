@@ -11,8 +11,8 @@ let locations = [];
 let hourlyTotal=0;
 
 
-function Locations(name, minCPH, maxCPH, avgCookieSale) {
-  this.userName = name;
+function Location(name, minCPH, maxCPH, avgCookieSale) {
+  this.locationName = name;
   this.minCPH = minCPH;
   this.maxCPH = maxCPH;
   this.avgCookieSale = avgCookieSale;
@@ -26,14 +26,14 @@ function Locations(name, minCPH, maxCPH, avgCookieSale) {
 
 }
 
-Locations.prototype.getRanNumbOfcustEh = function () {
+Location.prototype.getRanNumbOfcustEh = function () {
   for (let i = 0; i < hours.length; i++) {
     this.RandomCPH.push(randomNumber(this.minCPH, this.maxCPH));
     // console.log(`Random # ${this.RandomCPH[i]}`);
   }
 }
 
-Locations.prototype.setAvgCookiesPH = function () {
+Location.prototype.setAvgCookiesPH = function () {
   for (let i = 0; i < hours.length; i++) {
     this.avgCookiesPH.push(Math.floor((this.RandomCPH[i]) * this.avgCookieSale));
     //console.log(this.avgCookiesPH[i])
@@ -42,24 +42,27 @@ Locations.prototype.setAvgCookiesPH = function () {
 }
 
 
-let seattle = new Locations("SEATTLE", 23, 65, 6.3);
-
+let seattle = new Location("SEATTLE", 23, 65, 6.3);
 seattle.getRanNumbOfcustEh();
 seattle.setAvgCookiesPH();
-let tokyo = new Locations("TOKYO", 3, 24, 1.2);
+
+let tokyo = new Location("TOKYO", 3, 24, 1.2);
 tokyo.getRanNumbOfcustEh();
 tokyo.setAvgCookiesPH();
-let dubai = new Locations("DUBAI", 11, 38, 3.7);
+
+let dubai = new Location("DUBAI", 11, 38, 3.7);
 dubai.getRanNumbOfcustEh();
 dubai.setAvgCookiesPH();
-let paris = new Locations("PARIS", 20, 38, 2.3);
+
+let paris = new Location("PARIS", 20, 38, 2.3);
 paris.getRanNumbOfcustEh();
 paris.setAvgCookiesPH();
-let lima = new Locations("LIMA", 2, 16, 4.6);
+
+let lima = new Location("LIMA", 2, 16, 4.6);
 lima.getRanNumbOfcustEh();
 lima.setAvgCookiesPH();
 
-//console.log(seattle)
+console.log(seattle)
 
 console.log(locations)
 
@@ -67,7 +70,6 @@ console.log(locations)
 
 
 let parent = document.getElementById('parent');
-
 let table = document.createElement('table');
 parent.appendChild(table);
 
@@ -78,9 +80,7 @@ let headerMethod = function () {
   table.appendChild(trElement);
   trElement.textContent = `Name/hours`;
 
-
   for (let i = 0; i < hours.length; i++) {
-
     let thElement = document.createElement("th");
     trElement.appendChild(thElement);
     thElement.textContent = `${hours[i]}`;
@@ -89,23 +89,20 @@ let headerMethod = function () {
 
   let thElement1 = document.createElement("th");
   trElement.appendChild(thElement1);
-
   thElement1.textContent = `Daily Location Total`;
 
 }
 
-
-Locations.prototype.renderMethod = function () {
-
-  let trElement2 = document.createElement("tr");
-  table.appendChild(trElement2);
+// render method >>> create contents of table tds  o total
+Location.prototype.renderMethod = function () {
+ let trElement2 = document.createElement("tr");
+ table.appendChild(trElement2);
 
   let tdElement = document.createElement("td");
   trElement2.appendChild(tdElement);
-  tdElement.textContent = `${this.userName}`;
+  tdElement.textContent = `${this.locationName}`;
 
-
-
+  
   for (let i = 0; i < hours.length; i++) {
 
     let tdElement = document.createElement("td");
@@ -126,6 +123,7 @@ Locations.prototype.renderMethod = function () {
 
 }
 
+// footer method
 let totalTotal=0;
 let footerMethod = function () {
   let footerRow = document.createElement("tr");
@@ -134,7 +132,6 @@ let footerMethod = function () {
 
   let thElement=document.createElement("th");
   footerRow.appendChild(thElement);
-
   thElement.textContent = `ToTal`;
 
   for (let i = 0; i < hours.length; i++) {
@@ -149,10 +146,7 @@ let footerMethod = function () {
     totalThElement.textContent=hourlyTotal;
   }
   
-  // for(let i=0;i<hours.length;i++){
-  //  totalTotal=totalTotal+ hours[i].hourlyTotal;
-  //  console.log(totalTotal)
-  // }
+ 
   let totalTotalElement=document.createElement('th');
   footerRow.appendChild(totalTotalElement);
   totalTotalElement.textContent=totalTotal;
@@ -164,12 +158,68 @@ let footerMethod = function () {
 
 
 headerMethod();
-seattle.renderMethod();
-tokyo.renderMethod();
-dubai.renderMethod();
-paris.renderMethod();
-lima.renderMethod();
+// seattle.renderMethod();
+// tokyo.renderMethod();
+// dubai.renderMethod();
+// paris.renderMethod();
+// lima.renderMethod();
+
+for(let i=0; i<locations.length;i++){
+  locations[i].renderMethod();
+}
+
 footerMethod();
 
+
+
+//=============================================================lab9 Events and forms =========================================================
+
+let newLocationForm= document.getElementById("form");
+
+newLocationForm.addEventListener('submit',submitter);
+
+
+function submitter(event){
+  // to prevent the refresh when press on submit
+  event.preventDefault();
+
+  // to see tha path
+  console.log(event);
+
+  let newlocationName=event.target.nameField.value;
+  //console.log(newlocationName)
+
+  //cuz form gives me string values always so we have to convert it to numbers
+  let newMinCPh=Number(event.target.minField.value);
+  let newMaxCPh=Number(event.target.maxField.value);
+  let newAvgS=Number(event.target.avgField.value);
+
+let newAddedLocation=new Location(newlocationName,newMinCPh,newMaxCPh,newAvgS);
+  console.log(newAddedLocation);
+
+  if (newAddedLocation.minCPH > newAddedLocation.maxCPH){
+    
+    document.getElementById("form").reset();
+    alert("try again! minCPH must be less than max");
+    
+    }
+
+
+  //1-remove the total
+
+table.removeChild(table.lastChild);
+
+// //2- add new location to table (render it)
+newAddedLocation.getRanNumbOfcustEh();
+newAddedLocation.setAvgCookiesPH();
+newAddedLocation.renderMethod();
+
+ //3- add the total again to the table
+footerMethod();
+
+//to reset my submit button 
+document.getElementById("form").reset();
+
+}
 
 
