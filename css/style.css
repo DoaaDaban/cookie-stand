@@ -77,4 +77,13 @@ footer{
 
 #parent{
     margin-left: 250px;
+    background-color:rgb(241, 10, 10);
+    margin-right: 250px;
+}
+
+#form{
+    margin-left: 250px;
+    margin-right: 250px;
+    background-color:rgb(241, 10, 10);
+
 }
