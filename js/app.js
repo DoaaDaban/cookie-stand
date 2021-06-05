@@ -550,7 +550,7 @@ function submitter(event){
   let newMaxCPh=Number(event.target.maxField.value);
   let newAvgS=Number(event.target.avgField.value);
 
-let newAddedLocation=new Location(newlocationName,newMinCPh,newMaxCPh,newAvgS);
+ let newAddedLocation=new Location(newlocationName,newMinCPh,newMaxCPh,newAvgS);
   console.log(newAddedLocation);
 
   if (newAddedLocation.minCPH > newAddedLocation.maxCPH){
@@ -578,4 +578,17 @@ document.getElementById("form").reset();
 
 }
 
+//====================================update values==================================
 
+// let newUpadateLocation=document.getElementById('parent');
+
+// newUpadateLocation.addEventListener("submit",updatingMethod);
+
+// function updatingMethod(event){
+//   //event.preventDefault();
+
+//   let newUpadateValue=event.target.f.value;
+
+
+
+// }
